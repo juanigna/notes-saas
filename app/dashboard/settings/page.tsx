@@ -9,7 +9,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { type User } from "@prisma/client";
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
-async function getData(userId: string): Promise<User> {
+async function getData(userId: string) {
     noStore();
     const data = await prisma.user.findUnique({
         where: {

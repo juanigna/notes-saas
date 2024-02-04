@@ -23,7 +23,7 @@ async function getData(userId: string) {
 
 export default async function Dashoboard() {
     const { getUser } = getKindeServerSession();
-    const user = (await getUser())
+    const user = await getUser()
     const data = await getData(user?.id as string);
 
     async function deleteNote(formData: FormData) {

@@ -1,11 +1,9 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
 import prisma from "@/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/dist/types";
 import { getStripeSession, stripe } from "@/lib/stripe";
-import { Subscription } from "@prisma/client";
 import { redirect } from "next/navigation";
 import StripeSubmitButton from "@/components/stripe-submit-button";
 import StripePortal from "@/components/stripe-portal";

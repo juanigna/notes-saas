@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/dist/types";
 import { stripe } from "@/lib/stripe";
+import { redirect } from "next/navigation";
 
 async function getData({ user: { email, id, given_name, family_name } }: { user: KindeUser }) {
     const user = await prisma.user.findUnique({
@@ -47,8 +48,10 @@ async function getData({ user: { email, id, given_name, family_name } }: { user:
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
 
     const { getUser } = getKindeServerSession()
-    const user = await getUser() as KindeUser
-
+    const user = await getUser()
+    if (!user) {
+        return redirect("/");
+    }
 
 
     await getData({ user })

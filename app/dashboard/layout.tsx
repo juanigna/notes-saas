@@ -6,7 +6,19 @@ import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/dist/types";
 import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 
-async function getData({ user: { email, id, given_name, family_name } }: { user: KindeUser }) {
+async function getData({
+    email,
+    id,
+    firstName,
+    lastName,
+    profileImage,
+}: {
+    email: string;
+    id: string;
+    firstName: string | undefined | null;
+    lastName: string | undefined | null;
+    profileImage: string | undefined | null;
+}) {
     const user = await prisma.user.findUnique({
         where: {
             id
@@ -18,7 +30,7 @@ async function getData({ user: { email, id, given_name, family_name } }: { user:
     })
 
     if (!user) {
-        const name = `${given_name ?? ''} ${family_name ?? ''}`
+        const name = `${firstName ?? ''} ${lastName ?? ''}`
 
         await prisma.user.create({
             data: {
@@ -54,7 +66,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
     }
 
 
-    await getData({ user })
+    await getData({
+        email: user.email as string,
+        firstName: user.given_name as string,
+        id: user.id as string,
+        lastName: user.family_name as string,
+        profileImage: user.picture,
+    })
 
     return (
         <div className="flex flex-col space-y-6 mt-10">

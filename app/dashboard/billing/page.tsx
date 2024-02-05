@@ -2,11 +2,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CheckCircle2 } from "lucide-react";
 import prisma from "@/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/dist/types";
 import { getStripeSession, stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 import StripeSubmitButton from "@/components/stripe-submit-button";
 import StripePortal from "@/components/stripe-portal";
+import { unstable_noStore as noStore } from "next/cache";
+
 
 const featureItems = [
     {
@@ -27,6 +28,7 @@ const featureItems = [
 ]
 
 async function getData(userId: string) {
+    noStore()
     const data = prisma.subscription.findUnique({
         where: {
             userId,

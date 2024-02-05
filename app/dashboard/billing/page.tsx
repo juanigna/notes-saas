@@ -46,15 +46,15 @@ async function getData(userId: string) {
 
 export default async function BillingPage() {
     const { getUser } = getKindeServerSession()
-    const user = await getUser() as KindeUser
-    const data = await getData(user.id as string)
+    const user = await getUser()
+    const data = await getData(user?.id as string)
 
     async function createSubscription() {
         "use server"
 
         const dbUser = await prisma.user.findUnique({
             where: {
-                id: user.id
+                id: user?.id
             },
             select: {
                 stripeCustomerId: true,
